@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Checkout.Entities;
+using Checkout.Entities.Data;
 using Checkout.Storage;
 
 namespace Checkout.Api.Controllers
@@ -20,19 +20,19 @@ namespace Checkout.Api.Controllers
         }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Item>> Get()
+        public async Task<ActionResult<IEnumerable<Item>>> Get()
         {
-            return Ok(_storage.GetItems());
+            return Ok(await _storage.GetItems());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult<Item>> GetAsync(int id)
         {
-            var item = _storage.GetItem(id);
+            var item = await _storage.GetItem(id);
             if(item == null)
                 return NotFound();
-           return Ok();
+           return Ok(item);
         }
     }
 }

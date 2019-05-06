@@ -1,32 +1,33 @@
 using System;
 using System.Collections.Generic;
-using Checkout.Entities;
+using System.Threading.Tasks;
+using Checkout.Entities.Data;
 
 namespace Checkout.Storage
 {
-    public interface IStorage
+    public interface IStorage : IDisposable
     {
-        IEnumerable<Item> GetItems();
+        Task<IEnumerable<Item>> GetItems();
 
 
-        Item GetItem(int id);
+        Task<Item> GetItem(int id);
 
-        int InitBasket();
+        Task<int> InitBasket();
 
-        bool AddItem(int basketId, Item item, int count);
+        Task<bool> AddItem(int basketId, int itemId, int count);
 
-        IEnumerable<Basket> GetBaskets();  
+        Task<IEnumerable<Basket>> GetBaskets();  
 
-        Basket GetBasket(int basketId);
+        Task<Basket> GetBasket(int basketId);
 
-        bool BasketExists(int id);
+        Task<bool> BasketExists(int id);
 
-        bool AddBasket(Basket basket);
+        Task<bool> AddOrReplaceBasket(Basket basket);
 
-        bool ChangeQuantity(int basketId, int itemId, int count);
+        Task<bool> ChangeQuantity(int basketId, int itemId, int count);
 
-        void Checkout(int basketId);
+        Task Checkout(int basketId);
 
-        bool RemoveBasket(int basketId);
+        Task<bool> RemoveBasket(int basketId);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Checkout.Entities;
+using Checkout.Entities.Data;
 using Checkout.Storage;
 
 namespace Checkout.Api.Controllers
@@ -20,16 +20,16 @@ namespace Checkout.Api.Controllers
         }
         // GET api/baskets
         [HttpGet]
-        public ActionResult<IEnumerable<Basket>> Get()
+        public async Task<ActionResult<IEnumerable<Basket>>> Get()
         {
-            return Ok(_storage.GetBaskets());
+            return Ok(await _storage.GetBaskets());
         }
 
         // GET api/baskets/5
         [HttpGet("{id}")]
-        public ActionResult<Basket> Get(int id)
+        public async Task<ActionResult<Basket>> Get(int id)
         {
-            var basket = _storage.GetBasket(id);
+            var basket = await _storage.GetBasket(id);
 
             if(basket == null)
                 return NotFound();
@@ -39,37 +39,62 @@ namespace Checkout.Api.Controllers
 
         // POST api/baskets
         [HttpPost]
-        public ActionResult Post([FromBody] Basket basket)
+        public async Task<ActionResult> Post([FromBody] Basket basket)
         {
-            if(_storage.BasketExists(basket.Id))
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (basket == null)
+                return BadRequest();
+
+            if(await _storage.BasketExists(basket.Id))
                 return BadRequest("Basket already exists");
 
-            _storage.AddBasket(basket);
+            if(!await _storage.AddOrReplaceBasket(basket))
+                return BadRequest("One of items does not exist.");
 
+            return NoContent();
+        }
+        
+        [Route("{id}/order/{itemId}/{count}")]
+        [HttpPut]
+        public async Task<ActionResult> AddItemToBasket(int id, int itemId, int count)
+        {
+            if(count <=0)
+                return BadRequest();
+
+            if(!await _storage.AddItem(id, itemId, count))
+                return BadRequest("Item does not exist.");
             return NoContent();
         }
 
         // PUT api/baskets/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, Basket basket)
+        public async Task<ActionResult> Put(int id, Basket basket)
         {
-            if (id != basket.Id)
+            if (!ModelState.IsValid)
                 return BadRequest();
 
-            if(!_storage.BasketExists(id))
+            if (basket == null || id != basket.Id)
+                return BadRequest();
+
+            if(!await _storage.BasketExists(id))
                 return BadRequest("Basket already exists");
 
-            _storage.AddBasket(basket);
+            if(!await _storage.AddOrReplaceBasket(basket))
+                return BadRequest("One of items does not exist.");
 
             return NoContent();
         }
 
         // DELETE api/baskets/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var success = _storage.RemoveBasket(id);
-            if(!success)
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if(!await _storage.RemoveBasket(id))
                 return NotFound();
             return NoContent();
         }
