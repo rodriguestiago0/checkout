@@ -53,7 +53,7 @@ namespace Checkout.Api.Controllers
             if(!await _storage.AddOrReplaceBasketAsync(basket))
                 return BadRequest("One of items does not exist.");
 
-            return NoContent();
+            return Ok(await _storage.GetBasketAsync(basket.Id));
         }
         
         [Route("{id}/order/{itemId}/{count}")]
