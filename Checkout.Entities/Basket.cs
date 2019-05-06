@@ -5,8 +5,8 @@ namespace Checkout.Entities
 {
     public class Basket
     {
-        public ulong Id{get; set;}
+        public int Id{get; set;}
 
-        public Dictionary<ulong, BasketItem> Items {get; set;}
+        public Dictionary<int, BasketItem> Items {get; set;}
     }
 }

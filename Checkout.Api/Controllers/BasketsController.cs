@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Checkout.Entities;
+using Checkout.Storage;
 
 namespace Checkout.Api.Controllers
 {
@@ -11,36 +12,66 @@ namespace Checkout.Api.Controllers
     [ApiController]
     public class BasketsController : ControllerBase
     {
-        // GET api/values
+        private IStorage _storage;
+
+        public BasketsController(IStorage storage)
+        {
+            _storage = storage;
+        }
+        // GET api/baskets
         [HttpGet]
-        public ActionResult<IEnumerable<Item>> Get()
+        public ActionResult<IEnumerable<Basket>> Get()
         {
-            
+            return Ok(_storage.GetBaskets());
         }
 
-        // GET api/values/5
+        // GET api/baskets/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<Basket> Get(int id)
         {
-            return "value";
+            var basket = _storage.GetBasket(id);
+
+            if(basket == null)
+                return NotFound();
+
+            return basket;
         }
 
-        // POST api/values
+        // POST api/baskets
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Post([FromBody] Basket basket)
         {
+            if(_storage.BasketExists(basket.Id))
+                return BadRequest("Basket already exists");
+
+            _storage.AddBasket(basket);
+
+            return NoContent();
         }
 
-        // PUT api/values/5
+        // PUT api/baskets/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(int id, Basket basket)
         {
+            if (id != basket.Id)
+                return BadRequest();
+
+            if(!_storage.BasketExists(id))
+                return BadRequest("Basket already exists");
+
+            _storage.AddBasket(basket);
+
+            return NoContent();
         }
 
-        // DELETE api/values/5
+        // DELETE api/baskets/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var success = _storage.RemoveBasket(id);
+            if(!success)
+                return NotFound();
+            return NoContent();
         }
     }
 }
