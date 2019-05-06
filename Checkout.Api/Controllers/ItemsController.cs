@@ -22,14 +22,14 @@ namespace Checkout.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Item>>> Get()
         {
-            return Ok(await _storage.GetItems());
+            return Ok(await _storage.GetItemsAsync());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Item>> GetAsync(int id)
         {
-            var item = await _storage.GetItem(id);
+            var item = await _storage.GetItemAsync(id);
             if(item == null)
                 return NotFound();
            return Ok(item);

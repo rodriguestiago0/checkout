@@ -22,14 +22,14 @@ namespace Checkout.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Basket>>> Get()
         {
-            return Ok(await _storage.GetBaskets());
+            return Ok(await _storage.GetBasketsAsync());
         }
 
         // GET api/baskets/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Basket>> Get(int id)
         {
-            var basket = await _storage.GetBasket(id);
+            var basket = await _storage.GetBasketAsync(id);
 
             if(basket == null)
                 return NotFound();
@@ -47,10 +47,10 @@ namespace Checkout.Api.Controllers
             if (basket == null)
                 return BadRequest();
 
-            if(await _storage.BasketExists(basket.Id))
+            if(await _storage.BasketExistsAsync(basket.Id))
                 return BadRequest("Basket already exists");
 
-            if(!await _storage.AddOrReplaceBasket(basket))
+            if(!await _storage.AddOrReplaceBasketAsync(basket))
                 return BadRequest("One of items does not exist.");
 
             return NoContent();
@@ -63,7 +63,7 @@ namespace Checkout.Api.Controllers
             if(count <=0)
                 return BadRequest();
 
-            if(!await _storage.AddItem(id, itemId, count))
+            if(!await _storage.AddItemAsync(id, itemId, count))
                 return BadRequest("Item does not exist.");
             return NoContent();
         }
@@ -78,10 +78,10 @@ namespace Checkout.Api.Controllers
             if (basket == null || id != basket.Id)
                 return BadRequest();
 
-            if(!await _storage.BasketExists(id))
+            if(!await _storage.BasketExistsAsync(id))
                 return BadRequest("Basket already exists");
 
-            if(!await _storage.AddOrReplaceBasket(basket))
+            if(!await _storage.AddOrReplaceBasketAsync(basket))
                 return BadRequest("One of items does not exist.");
 
             return NoContent();
@@ -94,7 +94,7 @@ namespace Checkout.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            if(!await _storage.RemoveBasket(id))
+            if(!await _storage.RemoveBasketAsync(id))
                 return NotFound();
             return NoContent();
         }

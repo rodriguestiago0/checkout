@@ -7,27 +7,27 @@ namespace Checkout.Storage
 {
     public interface IStorage : IDisposable
     {
-        Task<IEnumerable<Item>> GetItems();
+        Task<IEnumerable<Item>> GetItemsAsync();
 
 
-        Task<Item> GetItem(int id);
+        Task<Item> GetItemAsync(int id);
 
-        Task<int> InitBasket();
+        Task<int> InitBasketAsync();
 
-        Task<bool> AddItem(int basketId, int itemId, int count);
+        Task<bool> AddItemAsync(int basketId, int itemId, int count);
 
-        Task<IEnumerable<Basket>> GetBaskets();  
+        Task<IEnumerable<Basket>> GetBasketsAsync();  
 
-        Task<Basket> GetBasket(int basketId);
+        Task<Basket> GetBasketAsync(int basketId);
 
-        Task<bool> BasketExists(int id);
+        Task<bool> BasketExistsAsync(int id);
 
-        Task<bool> AddOrReplaceBasket(Basket basket);
+        Task<bool> AddOrReplaceBasketAsync(Basket basket);
 
-        Task<bool> ChangeQuantity(int basketId, int itemId, int count);
+        Task<bool> ChangeQuantityAsync(int basketId, int itemId, int count);
 
-        Task Checkout(int basketId);
+        Task CheckoutAsync(int basketId);
 
-        Task<bool> RemoveBasket(int basketId);
+        Task<bool> RemoveBasketAsync(int basketId);
     }
 }
