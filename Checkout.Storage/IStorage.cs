@@ -9,12 +9,13 @@ namespace Checkout.Storage
     {
         Task<IEnumerable<Item>> GetItemsAsync();
 
-
         Task<Item> GetItemAsync(int id);
 
         Task<int> InitBasketAsync();
 
-        Task<bool> AddItemAsync(int basketId, int itemId, int count);
+        Task<bool> AddOrReplaceItemAsync(int basketId, int itemId, int count);
+
+        Task<bool> RemoveItemFromBasket(int basketId, int itemId);
 
         Task<IEnumerable<Basket>> GetBasketsAsync();  
 
@@ -26,8 +27,16 @@ namespace Checkout.Storage
 
         Task<bool> ChangeQuantityAsync(int basketId, int itemId, int count);
 
-        Task CheckoutAsync(int basketId);
+        Task<decimal> CheckoutAsync(int basketId);
 
         Task<bool> RemoveBasketAsync(int basketId);
+
+        Task<bool> ClearBascketAsync(int basketId);
+
+        Task<bool> ItemExistsAsync(int id);
+
+        Task<bool> AddItemAsync(Item item);
+
+        Task RemoveItemAsync(int id);
     }
 }

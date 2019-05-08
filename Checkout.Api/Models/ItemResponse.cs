@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Checkout.Entities.Data
+namespace Checkout.Api.Model
 {
-    public class Item
+    public class ItemResponse
     {
         public int Id{get; set;}
 

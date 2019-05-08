@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Checkout.Entities.Data;
 using Checkout.Storage;
+using Checkout.Api.Model;
+using AutoMapper;
 
 namespace Checkout.Api.Controllers
 {
@@ -13,26 +15,61 @@ namespace Checkout.Api.Controllers
     public class ItemsController : ControllerBase
     {
         private IStorage _storage;
+        private readonly IMapper _mapper;
 
-        public ItemsController(IStorage storage)
+        public ItemsController(IStorage storage, IMapper mapper)
         {
             _storage = storage;
+            _mapper = mapper;
         }
-        // GET api/values
+        // GET api/items
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Item>>> Get()
+        public async Task<ActionResult<IEnumerable<ItemResponse>>> GetAll()
         {
-            return Ok(await _storage.GetItemsAsync());
+            var items = await _storage.GetItemsAsync();
+            return Ok(items.Select(i => _mapper.Map<ItemResponse>(i)));
         }
 
-        // GET api/values/5
+        // GET api/items/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Item>> GetAsync(int id)
+        public async Task<ActionResult<Item>> Get(int id)
         {
             var item = await _storage.GetItemAsync(id);
             if(item == null)
                 return NotFound();
-           return Ok(item);
+           return Ok(_mapper.Map<ItemResponse>(item));
         }
+
+        // POST api/items/5
+        [HttpPost("{id}")]
+        public async Task<ActionResult> Post(int id, ItemResponse item)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (item == null || id != item.Id)
+                return BadRequest();
+
+            if(await _storage.ItemExistsAsync(id))
+                return BadRequest("Item already exists");
+
+            if(!await _storage.AddItemAsync(_mapper.Map<Item>(item)))
+                return BadRequest();
+
+            return Ok(item);
+        }
+
+        // POST api/items/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            if(!await _storage.ItemExistsAsync(id))
+                return BadRequest("Item does not exists");
+
+            await _storage.RemoveItemAsync(id);
+
+            return NoContent();
+        }
+                
     }
 }

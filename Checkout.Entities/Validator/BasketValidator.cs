@@ -7,7 +7,7 @@ namespace CheckoutAssignment.Validation
     {
         public BasketValidator()
         {
-            RuleFor(reg => reg.Items.Values).SetCollectionValidator(new BasketItemValidator());
+            RuleForEach(reg => reg.Items.Values).SetValidator(new BasketItemValidator());
         }
     }
 }

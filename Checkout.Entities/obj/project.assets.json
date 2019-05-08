@@ -302,7 +302,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "FluentValidation",
+      "FluentValidation >= 8.3.0",
       "NETStandard.Library >= 2.0.3"
     ]
   },
@@ -347,7 +347,7 @@
         "dependencies": {
           "FluentValidation": {
             "target": "Package",
-            "version": "(, )"
+            "version": "[8.3.0, )"
           },
           "NETStandard.Library": {
             "suppressParent": "All",

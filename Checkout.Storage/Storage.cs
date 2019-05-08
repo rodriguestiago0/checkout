@@ -53,25 +53,37 @@ namespace Checkout.Storage
             return Task.FromResult(AvailableId++);
         }
 
-        public Task<bool> AddItemAsync(int basketId, int itemId, int count)
+        public Task<bool> AddOrReplaceItemAsync(int basketId, int itemId, int count)
         {
-            if(_baskets.ContainsKey(basketId) && _items.ContainsKey(itemId)){
+            if(count > 0 && _baskets.ContainsKey(basketId) && _items.ContainsKey(itemId)){
                 var item = _items[itemId];
                 var items = _baskets[basketId].Items;
-                if(items.ContainsKey(item.Id))
-                    items[item.Id].Count+=count;
-                else
-                    items.Add(item.Id, new BasketItem{
-                        Item = item,
-                        Count = count
-                    });
+                items.Add(item.Id, new BasketItem{
+                    Item = item,
+                    Count = count
+                });
             
                 return Task.FromResult(true);
             }
             return Task.FromResult(false);
         }
 
-        private Task<bool> ClearBascketAsync(int basketId)
+        public Task<bool> RemoveItemFromBasket(int basketId, int itemId)
+        {
+            if(_baskets.ContainsKey(basketId) && _items.ContainsKey(itemId)){
+                var item = _items[itemId];
+                var items = _baskets[basketId].Items;
+                if(items.ContainsKey(item.Id))
+                    items.Remove(itemId);
+                else
+                    return Task.FromResult(false);
+            
+                return Task.FromResult(true);
+            }
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> ClearBascketAsync(int basketId)
         {
             if(_baskets.ContainsKey(basketId)){
                 _baskets[basketId].Items.Clear();
@@ -120,10 +132,13 @@ namespace Checkout.Storage
             return Task.FromResult(true);
         }
 
-        public Task CheckoutAsync(int basketId)
+        public Task<decimal> CheckoutAsync(int basketId)
         {
-            ClearBascketAsync(basketId);
-            return Task.CompletedTask;
+            if(!_baskets.ContainsKey(basketId))
+                return Task.FromResult(0m);
+
+            var total = _baskets[basketId].Items.Values.Sum(i => i.Item.Price * i.Count);
+            return Task.FromResult(total);
         }
 
         public Task<bool> RemoveBasketAsync(int basketId)
@@ -132,6 +147,22 @@ namespace Checkout.Storage
                 return Task.FromResult(false);
             _baskets.Remove(basketId);
             return Task.FromResult(true);
+        }
+
+        public  Task<bool> ItemExistsAsync(int id){
+            return Task.FromResult(_items.ContainsKey(id));
+        }
+
+        public Task<bool> AddItemAsync(Item item){
+            if(item == null)
+                return Task.FromResult(false);
+            _items.Add(item.Id, item);
+            return Task.FromResult(true);
+        }
+
+        public Task RemoveItemAsync(int id){
+            _items.Remove(id);
+            return Task.CompletedTask;
         }
 
         public void Dispose(){
