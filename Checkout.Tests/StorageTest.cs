@@ -259,11 +259,15 @@ namespace Tests
             var itemId = 1;
             var item = new Item{
                 Id = itemId, 
-                Price = 4.5m
+                Price = 4.5m,
+                Description = "description",
+                Name = "name"
             };
             var item2 = new Item{
-                Id = itemId, 
-                Price = 3.5m
+                Id = ++itemId, 
+                Price = 3.5m,
+                Description = "description",
+                Name = "name"
             };
             await _storage.AddOrUpdateItemAsync(item);
             await _storage.AddOrUpdateItemAsync(item2);
@@ -309,11 +313,15 @@ namespace Tests
             var itemId = 1;
             var item = new Item{
                 Id = itemId, 
-                Price = 4.5m
+                Price = 4.5m,
+                Description = "description",
+                Name = "name"
             };
             var item2 = new Item{
-                Id = itemId, 
-                Price = 3.5m
+                Id = ++itemId, 
+                Price = 3.5m,
+                Description = "description",
+                Name = "name"
             };
             await _storage.AddOrUpdateItemAsync(item);
             await _storage.AddOrUpdateItemAsync(item2);
