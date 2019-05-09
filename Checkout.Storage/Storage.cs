@@ -100,14 +100,25 @@ namespace Checkout.Storage
             return Task.FromResult(true);
         }
 
+        private Task<decimal> GetPrice(int basketId){
+
+            return Task.FromResult(_baskets[basketId].Items.Values.Sum(i => i.Item.Price * i.Count));
+        }
         public Task<decimal> CheckoutAsync(int basketId)
         {
             if(!_baskets.ContainsKey(basketId))
                 return Task.FromResult(0m);
 
-            var total = _baskets[basketId].Items.Values.Sum(i => i.Item.Price * i.Count);
+            var total = GetPrice(basketId);
             ClearBascketAsync(basketId);
-            return Task.FromResult(total);
+            return total;
+        }
+
+
+        public Task<decimal> GetTotalPriceAsync(int basketId){
+            if(!_baskets.ContainsKey(basketId))
+                return Task.FromResult(0m);
+            return GetPrice(basketId);
         }
 
         public Task<bool> RemoveBasketAsync(int basketId)

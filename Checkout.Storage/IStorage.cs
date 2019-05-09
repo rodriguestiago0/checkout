@@ -27,6 +27,8 @@ namespace Checkout.Storage
 
         Task<decimal> CheckoutAsync(int basketId);
 
+        Task<decimal> GetTotalPriceAsync(int basketId);
+
         Task<bool> RemoveBasketAsync(int basketId);
 
         Task<bool> ClearBascketAsync(int basketId);

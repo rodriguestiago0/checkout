@@ -302,5 +302,52 @@ namespace Tests
             result = await _storage.CheckoutAsync(basketId);
             Assert.AreEqual(9m + 3.5m, result);
         }
+
+        [Test]
+        public async Task GetPriceBasket(){
+            var basketId = 1;
+            var itemId = 1;
+            var item = new Item{
+                Id = itemId, 
+                Price = 4.5m
+            };
+            var item2 = new Item{
+                Id = itemId, 
+                Price = 3.5m
+            };
+            await _storage.AddOrUpdateItemAsync(item);
+            await _storage.AddOrUpdateItemAsync(item2);
+            var basket = new Basket{
+                Id = basketId
+            };
+            basket.Items.Add(1, new BasketItem{
+                Item = item,
+                Count = 2
+            });
+
+            await _storage.AddOrReplaceBasketAsync(basket);
+            var result = await _storage.CheckoutAsync(basketId);
+            Assert.AreEqual(9m, result);
+
+            result = await _storage.CheckoutAsync(2);
+            Assert.AreEqual(0m, result);
+
+            basket = new Basket{
+                Id = ++basketId
+            };
+            basket.Items.Add(1, new BasketItem{
+                Item = item,
+                Count = 2
+            });
+
+            basket.Items.Add(2, new BasketItem{
+                Item = item2,
+                Count = 1
+            });
+
+            await _storage.AddOrReplaceBasketAsync(basket);
+            result = await _storage.CheckoutAsync(basketId);
+            Assert.AreEqual(9m + 3.5m, result);
+        }
     }
 }

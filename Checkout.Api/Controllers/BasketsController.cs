@@ -117,7 +117,7 @@ namespace Checkout.Api.Controllers
             return NoContent();
         }
 
-        [Route("cretate")]
+        [Route("create")]
         [HttpPost]
         public async Task<ActionResult<int>> CreateBasket()
         {
@@ -130,6 +130,16 @@ namespace Checkout.Api.Controllers
         public async Task<ActionResult<decimal>> CheckoutBasket(int id)
         {
             var price = await _storage.CheckoutAsync(id);
+            if(price == 0)
+                return BadRequest("Basket is empty or does not exist.");
+            return Ok(price);
+        }
+
+        [Route("{id}/price")]
+        [HttpGet]
+        public async Task<ActionResult<decimal>> BasketPrice(int id)
+        {
+            var price = await _storage.GetTotalPriceAsync(id);
             if(price == 0)
                 return BadRequest("Basket is empty or does not exist.");
             return Ok(price);
