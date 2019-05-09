@@ -33,7 +33,7 @@ namespace Checkout.Storage
             return Task.FromResult(AvailableId++);
         }
 
-        public Task<bool> AddOrReplaceItemAsync(int basketId, int itemId, int count)
+        public Task<bool> AddOrReplaceItemOnBasketAsync(int basketId, int itemId, int count)
         {
             if(count > 0 && _baskets.ContainsKey(basketId) && _items.ContainsKey(itemId)){
                 var item = _items[itemId];

@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using FluentValidation.AspNetCore;
+using Checkout.Api.Validation;
 
 namespace Checkout.Api
 {
@@ -35,7 +37,12 @@ namespace Checkout.Api
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssemblyContaining<ItemValidator>();
+                    fv.RegisterValidatorsFromAssemblyContaining<BasketValidator>();
+                    fv.RegisterValidatorsFromAssemblyContaining<BasketItemValidator>();
+                }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

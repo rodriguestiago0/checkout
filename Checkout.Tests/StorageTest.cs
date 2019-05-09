@@ -162,14 +162,14 @@ namespace Tests
             Assert.AreEqual(1, basket.Items[itemId].Count);
             Assert.AreEqual(1, basket.Items[itemId].Item.Id);
 
-            var result = await _storage.AddOrReplaceItemAsync(basketId, itemId, 5);
+            var result = await _storage.AddOrReplaceItemOnBasketAsync(basketId, itemId, 5);
             Assert.IsTrue(result);
             Assert.AreEqual(1, basket.Items.Count);
             Assert.AreEqual(5, basket.Items[itemId].Count);
             Assert.AreEqual(1, basket.Items[itemId].Item.Id);
 
 
-            result = await _storage.AddOrReplaceItemAsync(basketId, 2, 5);
+            result = await _storage.AddOrReplaceItemOnBasketAsync(basketId, 2, 5);
             Assert.IsFalse(result);
         }
 

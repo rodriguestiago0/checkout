@@ -40,14 +40,14 @@ namespace Checkout.Api.Controllers
            return Ok(_mapper.Map<ItemResponse>(item));
         }
 
-        // POST api/items/5
-        [HttpPost("{id}")]
-        public async Task<ActionResult<ItemResponse>> Post(int id, ItemResponse item)
+        // POST api/items/
+        [HttpPost()]
+        public async Task<ActionResult<ItemResponse>> Post([FromBody] ItemResponse item)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ModelState);
 
-            if (item == null || id != item.Id)
+            if (item == null)
                 return BadRequest();
 
             if(!await _storage.AddOrUpdateItemAsync(_mapper.Map<Item>(item)))

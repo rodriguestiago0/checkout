@@ -47,7 +47,7 @@ namespace Checkout.Api.Controllers
         public async Task<ActionResult<BasketResponse>> Post([FromBody] BasketResponse basket)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ModelState);
 
             if (basket == null)
                 return BadRequest();
@@ -66,7 +66,7 @@ namespace Checkout.Api.Controllers
         public async Task<ActionResult> Put(int id, BasketResponse basket)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ModelState);
 
             if (basket == null || id != basket.Id)
                 return BadRequest();
@@ -93,7 +93,7 @@ namespace Checkout.Api.Controllers
         [HttpPut]
         public async Task<ActionResult> AddItemToBasket(int id, int itemId, int count)
         {
-            if(!await _storage.AddOrReplaceItemAsync(id, itemId, count))
+            if(!await _storage.AddOrReplaceItemOnBasketAsync(id, itemId, count))
                 return BadRequest("Item does not exist.");
             return NoContent();
         }

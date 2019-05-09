@@ -13,7 +13,7 @@ namespace Checkout.Storage
 
         Task<int> InitBasketAsync();
 
-        Task<bool> AddOrReplaceItemAsync(int basketId, int itemId, int count);
+        Task<bool> AddOrReplaceItemOnBasketAsync(int basketId, int itemId, int count);
 
         Task<bool> RemoveItemFromBasket(int basketId, int itemId);
 
