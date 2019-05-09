@@ -93,6 +93,14 @@ namespace Checkout.Storage
         {
             if(basket == null)
                 return Task.FromResult(false);
+            foreach(var basketItem in basket.Items.Values)
+            {
+                Item item;
+                if(!_items.TryGetValue(basketItem.Item.Id, out item))
+                    return Task.FromResult(false);
+                if(item.Price != basketItem.Item.Price || item.Description != basketItem.Item.Description || item.Name !=basketItem.Item.Name)
+                    return Task.FromResult(false);
+            }
             if(basket.Items.Values.Any(basketItem => !_items.ContainsKey(basketItem.Item.Id)))
                 return Task.FromResult(false);
             if(basket != null)

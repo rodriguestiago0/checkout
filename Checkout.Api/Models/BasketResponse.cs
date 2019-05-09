@@ -7,6 +7,6 @@ namespace Checkout.Api.Model
     {
         public int Id{get; set;}
 
-        public Dictionary<int, BasketItemResponse> Items {get; set;} = new Dictionary<int, BasketItemResponse>();
+        public List<BasketItemResponse> Items {get; set;} = new List<BasketItemResponse>();
     }
 }

@@ -56,7 +56,7 @@ namespace Checkout.Api.Controllers
                 return BadRequest("Basket already exists");
 
             if(!await _storage.AddOrReplaceBasketAsync(_mapper.Map<Basket>(basket)))
-                return BadRequest("One of items does not exist.");
+                return BadRequest("One of items does not exist or is incorrect.");
 
             return Ok(basket);
         }
@@ -72,7 +72,7 @@ namespace Checkout.Api.Controllers
                 return BadRequest();
 
             if(!await _storage.AddOrReplaceBasketAsync(_mapper.Map<Basket>(basket)))
-                return BadRequest("One of items does not exist.");
+                return BadRequest("One of items does not exist or is incorrect.");
 
             return NoContent();
         }
