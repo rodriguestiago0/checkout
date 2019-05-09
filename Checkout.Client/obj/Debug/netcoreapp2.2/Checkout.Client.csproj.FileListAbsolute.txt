@@ -1,0 +1,16 @@
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Client.deps.json
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Client.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Client.pdb
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Api.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Entities.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Storage.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Api.pdb
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Entities.pdb
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/bin/Debug/netcoreapp2.2/Checkout.Storage.pdb
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/obj/Debug/netcoreapp2.2/Checkout.Client.csprojAssemblyReference.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/obj/Debug/netcoreapp2.2/Checkout.Client.csproj.CoreCompileInputs.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/obj/Debug/netcoreapp2.2/Checkout.Client.AssemblyInfoInputs.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/obj/Debug/netcoreapp2.2/Checkout.Client.AssemblyInfo.cs
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/obj/Debug/netcoreapp2.2/Checkout.Client.csproj.CopyComplete
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/obj/Debug/netcoreapp2.2/Checkout.Client.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Client/obj/Debug/netcoreapp2.2/Checkout.Client.pdb
