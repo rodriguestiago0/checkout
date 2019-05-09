@@ -25,18 +25,14 @@ namespace Checkout.Storage
 
         Task<bool> AddOrReplaceBasketAsync(Basket basket);
 
-        Task<bool> ChangeQuantityAsync(int basketId, int itemId, int count);
-
         Task<decimal> CheckoutAsync(int basketId);
 
         Task<bool> RemoveBasketAsync(int basketId);
 
         Task<bool> ClearBascketAsync(int basketId);
 
-        Task<bool> ItemExistsAsync(int id);
+        Task<bool> AddOrUpdateItemAsync(Item item);
 
-        Task<bool> AddItemAsync(Item item);
-
-        Task RemoveItemAsync(int id);
+        Task<bool> RemoveItemAsync(int id);
     }
 }

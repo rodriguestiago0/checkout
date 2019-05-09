@@ -1,9 +1,9 @@
-using Checkout.Entities.Data;
+using Checkout.Api.Model;
 using FluentValidation;
 
-namespace CheckoutAssignment.Validation
+namespace Checkout.Api.Validation
 {
-    public class BasketItemValidator : AbstractValidator<BasketItem>
+    public class BasketItemValidator : AbstractValidator<BasketItemResponse>
     {
         public BasketItemValidator()
         {

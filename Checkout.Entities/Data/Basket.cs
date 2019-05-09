@@ -7,6 +7,6 @@ namespace Checkout.Entities.Data
     {
         public int Id{get; set;}
 
-        public Dictionary<int, BasketItem> Items {get; set;}
+        public Dictionary<int, BasketItem> Items {get; set;} = new Dictionary<int, BasketItem>();
     }
 }

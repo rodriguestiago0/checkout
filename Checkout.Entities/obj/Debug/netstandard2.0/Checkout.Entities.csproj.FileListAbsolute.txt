@@ -1,0 +1,9 @@
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/bin/Debug/netstandard2.0/Checkout.Entities.deps.json
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/bin/Debug/netstandard2.0/Checkout.Entities.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/bin/Debug/netstandard2.0/Checkout.Entities.pdb
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/obj/Debug/netstandard2.0/Checkout.Entities.csprojAssemblyReference.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/obj/Debug/netstandard2.0/Checkout.Entities.csproj.CoreCompileInputs.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/obj/Debug/netstandard2.0/Checkout.Entities.AssemblyInfoInputs.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/obj/Debug/netstandard2.0/Checkout.Entities.AssemblyInfo.cs
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/obj/Debug/netstandard2.0/Checkout.Entities.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Entities/obj/Debug/netstandard2.0/Checkout.Entities.pdb

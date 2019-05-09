@@ -32,7 +32,7 @@ namespace Checkout.Api.Controllers
 
         // GET api/items/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Item>> Get(int id)
+        public async Task<ActionResult<ItemResponse>> Get(int id)
         {
             var item = await _storage.GetItemAsync(id);
             if(item == null)
@@ -42,7 +42,7 @@ namespace Checkout.Api.Controllers
 
         // POST api/items/5
         [HttpPost("{id}")]
-        public async Task<ActionResult> Post(int id, ItemResponse item)
+        public async Task<ActionResult<ItemResponse>> Post(int id, ItemResponse item)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -50,10 +50,7 @@ namespace Checkout.Api.Controllers
             if (item == null || id != item.Id)
                 return BadRequest();
 
-            if(await _storage.ItemExistsAsync(id))
-                return BadRequest("Item already exists");
-
-            if(!await _storage.AddItemAsync(_mapper.Map<Item>(item)))
+            if(!await _storage.AddOrUpdateItemAsync(_mapper.Map<Item>(item)))
                 return BadRequest();
 
             return Ok(item);
@@ -63,10 +60,8 @@ namespace Checkout.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            if(!await _storage.ItemExistsAsync(id))
-                return BadRequest("Item does not exists");
-
-            await _storage.RemoveItemAsync(id);
+            if(!await _storage.RemoveItemAsync(id))
+                return NotFound();
 
             return NoContent();
         }

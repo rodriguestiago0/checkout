@@ -1,0 +1,12 @@
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/bin/Debug/netstandard2.0/Checkout.Storage.deps.json
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/bin/Debug/netstandard2.0/Checkout.Storage.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/bin/Debug/netstandard2.0/Checkout.Storage.pdb
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/bin/Debug/netstandard2.0/Checkout.Entities.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/bin/Debug/netstandard2.0/Checkout.Entities.pdb
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/obj/Debug/netstandard2.0/Checkout.Storage.csprojAssemblyReference.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/obj/Debug/netstandard2.0/Checkout.Storage.csproj.CoreCompileInputs.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/obj/Debug/netstandard2.0/Checkout.Storage.AssemblyInfoInputs.cache
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/obj/Debug/netstandard2.0/Checkout.Storage.AssemblyInfo.cs
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/obj/Debug/netstandard2.0/Checkout.Storage.csproj.CopyComplete
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/obj/Debug/netstandard2.0/Checkout.Storage.dll
+/Users/tiagorodrigues/Documents/checkout/Checkout.Storage/obj/Debug/netstandard2.0/Checkout.Storage.pdb

@@ -1,9 +1,9 @@
-using Checkout.Entities.Data;
+using Checkout.Api.Model;
 using FluentValidation;
 
-namespace Checkout.Entities.Validator
+namespace Checkout.Api.Validation
 {
-    public class ItemValidator : AbstractValidator<Item>
+    public class ItemValidator : AbstractValidator<ItemResponse>
     {
         public ItemValidator()
         {
