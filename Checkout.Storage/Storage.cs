@@ -27,60 +27,52 @@ namespace Checkout.Storage
 
         public Task<int> InitBasketAsync()
         {
-            lock(this){
-                _baskets[AvailableId] = new Basket{
-                    Id = AvailableId
-                };
-            }
+            _baskets[AvailableId] = new Basket{
+                Id = AvailableId
+            };
             return Task.FromResult(AvailableId++);
         }
 
         public Task<bool> AddOrReplaceItemOnBasketAsync(int basketId, int itemId, int count)
         {
-            lock(this){
-                Basket basket;
-                Item item;
-                if(count > 0 && _baskets.TryGetValue(basketId, out basket) && _items.TryGetValue(itemId, out item)){
-                    var items = basket.Items;
-                    items[item.Id] =  new BasketItem{
-                        Item = item,
-                        Count = count
-                    };
-                
-                    return Task.FromResult(true);
-                }
+            Basket basket;
+            Item item;
+            if(count > 0 && _baskets.TryGetValue(basketId, out basket) && _items.TryGetValue(itemId, out item)){
+                var items = basket.Items;
+                items[item.Id] =  new BasketItem{
+                    Item = item,
+                    Count = count
+                };
+            
+                return Task.FromResult(true);
             }
             return Task.FromResult(false);
         }
 
         public Task<bool> RemoveItemFromBasket(int basketId, int itemId)
         {
-            lock(this){
-                Basket basket;
-                Item item;
-                if(_baskets.TryGetValue(basketId, out basket) && _items.TryGetValue(itemId, out item)){
-                    var items = basket.Items;
-                    if(items.ContainsKey(item.Id))
-                        items.Remove(itemId);
-                    else
-                        return Task.FromResult(false);
-                
-                    return Task.FromResult(true);
-                }
+            Basket basket;
+            Item item;
+            if(_baskets.TryGetValue(basketId, out basket) && _items.TryGetValue(itemId, out item)){
+                var items = basket.Items;
+                if(items.ContainsKey(item.Id))
+                    items.Remove(itemId);
+                else
+                    return Task.FromResult(false);
+            
+                return Task.FromResult(true);
             }
             return Task.FromResult(false);
         }
 
         public Task<bool> ClearBascketAsync(int basketId)
         {
-            lock(_baskets){
-                Basket basket;
-                if(!_baskets.TryGetValue(basketId, out basket))
-                    return Task.FromResult(false);
+            Basket basket;
+            if(!_baskets.TryGetValue(basketId, out basket))
+                return Task.FromResult(false);
 
-                basket.Items.Clear();
-                return Task.FromResult(true);
-            }
+            basket.Items.Clear();
+            return Task.FromResult(true);
         }
 
         public Task<IEnumerable<Basket>> GetBasketsAsync()
@@ -105,20 +97,18 @@ namespace Checkout.Storage
         {
             if(basket == null)
                 return Task.FromResult(false);
-            lock(this){
-                foreach(var basketItem in basket.Items.Values)
-                {
-                    Item item;
-                    if(!_items.TryGetValue(basketItem.Item.Id, out item))
-                        return Task.FromResult(false);
-                    if(item.Price != basketItem.Item.Price || item.Description != basketItem.Item.Description || item.Name !=basketItem.Item.Name)
-                        return Task.FromResult(false);
-                }
-                if(basket.Items.Values.Any(basketItem => !_items.ContainsKey(basketItem.Item.Id)))
+            foreach(var basketItem in basket.Items.Values)
+            {
+                Item item;
+                if(!_items.TryGetValue(basketItem.Item.Id, out item))
                     return Task.FromResult(false);
-                if(basket != null)
-                    _baskets[basket.Id] = basket;
+                if(item.Price != basketItem.Item.Price || item.Description != basketItem.Item.Description || item.Name !=basketItem.Item.Name)
+                    return Task.FromResult(false);
             }
+            if(basket.Items.Values.Any(basketItem => !_items.ContainsKey(basketItem.Item.Id)))
+                return Task.FromResult(false);
+            if(basket != null)
+                _baskets[basket.Id] = basket;
             return Task.FromResult(true);
         }
 
@@ -128,47 +118,37 @@ namespace Checkout.Storage
         }
         public Task<decimal> CheckoutAsync(int basketId)
         {   
-            lock(this){
-                Basket basket;
-                if(!_baskets.TryGetValue(basketId, out basket))
-                    return Task.FromResult(0m);
+            Basket basket;
+            if(!_baskets.TryGetValue(basketId, out basket))
+                return Task.FromResult(0m);
 
-                var total = GetPrice(basket);
-                basket.Items.Clear();
-                return total;
-            }
+            var total = GetPrice(basket);
+            basket.Items.Clear();
+            return total;
         }
 
 
         public Task<decimal> GetTotalPriceAsync(int basketId){
-            lock(this){
-                Basket basket;
-                if(!_baskets.TryGetValue(basketId, out basket))
-                    return Task.FromResult(0m);
-                return GetPrice(basket);
-            }
+            Basket basket;
+            if(!_baskets.TryGetValue(basketId, out basket))
+                return Task.FromResult(0m);
+            return GetPrice(basket);
         }
 
         public Task<bool> RemoveBasketAsync(int basketId)
         {
-            lock(this){
-                return Task.FromResult(_baskets.Remove(basketId));
-            }
+            return Task.FromResult(_baskets.Remove(basketId));
         }
 
         public Task<bool> AddOrUpdateItemAsync(Item item){
             if(item == null)
                 return Task.FromResult(false);
-            lock(this){
-                _items[item.Id] = item;
-            }
+            _items[item.Id] = item;
             return Task.FromResult(true);
         }
 
         public Task<bool> RemoveItemAsync(int id){
-            lock(this){
-                return Task.FromResult(_items.Remove(id));
-            }   
+            return Task.FromResult(_items.Remove(id));
         }
 
         public void Dispose(){
